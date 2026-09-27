@@ -90,7 +90,7 @@ material_override = SubResource("Mat_wood")
 position = Vector3(0, 1.35, -1.2)
 script = ExtResource("4_interact")
 item_name = "Investigar la hoja"
-inspect_text = "DIARIO\n\n"Volví a esta casa después de muchos años.\nNo recordaba que la puerta del segundo piso\nsiempre hubiera estado cerrada.""
+inspect_text = "DIARIO\\n\\nVolví a esta casa después de muchos años.\\nNo recordaba que la puerta del segundo piso\\nsiempre hubiera estado cerrada."
 [node name="Mesh" type="MeshInstance3D" parent="DiaryPage"]
 mesh = SubResource("PaperMesh")
 material_override = SubResource("Mat_paper")
