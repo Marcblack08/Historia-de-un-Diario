@@ -350,7 +350,7 @@ func _start_video_or_photo() -> void:
 			if not skip_requested:
 				video_player.play()
 				return
-	_finish()
+	_start_cinematic()
 
 func _on_video_finished() -> void:
 	if video_mode and cinematic_active:
