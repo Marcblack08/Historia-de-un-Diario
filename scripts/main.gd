@@ -20,6 +20,7 @@ func _ready() -> void:
 	_upgrade_base_geometry()
 	_build_material_detail()
 	_build_first_floor_story_space()
+	_add_human_scale_details()
 
 func _mat(color: Color, roughness := 0.8, metallic := 0.0, emission := Color(0, 0, 0, 1)) -> Material:
 	var shader := load("res://shaders/old_house_surface.gdshader") as Shader
@@ -269,6 +270,23 @@ func show_interaction(text: String) -> void:
 		diary_read = true
 		message.text = "El diario está abierto.\n\nEncuentra el interruptor de la entrada."
 		_build_story_after_diary()
+
+func _add_human_scale_details() -> void:
+	# Door hardware at believable hand height (~1.0 m).
+	var hardware := _mat(Color(0.16, 0.13, 0.09), 0.28, 0.65)
+	_cylinder(self, 0.035, 0.055, Vector3(4.70, 1.02, -4.40), hardware)
+	_box(self, Vector3(0.20, 0.035, 0.035), Vector3(4.70, 1.02, -4.43), hardware)
+
+	# Wall light switch at ~1.15 m, within natural hand reach.
+	var switch_mat := _mat(Color(0.34, 0.34, 0.30), 0.48)
+	_box(self, Vector3(0.10, 0.16, 0.035), Vector3(-5.95, 1.15, -4.69), switch_mat)
+	_box(self, Vector3(0.035, 0.055, 0.055), Vector3(-5.95, 1.15, -4.64), hardware)
+
+	# Skirting board (~0.10 m) reinforces the room's true scale.
+	var skirt := _mat(Color(0.06, 0.036, 0.022), 0.78)
+	_box(self, Vector3(13.2, 0.12, 0.10), Vector3(0, 0.06, -4.86), skirt)
+	_box(self, Vector3(0.10, 0.12, 9.6), Vector3(-6.86, 0.06, 0), skirt)
+	_box(self, Vector3(0.10, 0.12, 9.6), Vector3(6.86, 0.06, 0), skirt)
 
 func _build_first_floor_story_space() -> void:
 	# A staircase is the visual promise of the second floor.
