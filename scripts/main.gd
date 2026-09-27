@@ -17,6 +17,7 @@ func _ready() -> void:
 	touch.flashlight_pressed.connect($Player.flashlight)
 	touch.interact_pressed.connect($Player.interact)
 	_build_visual_environment()
+	_build_material_detail()
 	_build_first_floor_story_space()
 
 func _mat(color: Color, roughness := 0.8, metallic := 0.0, emission := Color(0, 0, 0, 1)) -> StandardMaterial3D:
@@ -165,6 +166,63 @@ func _build_visual_environment() -> void:
 	add_child(dust)
 
 	$Player/Camera3D.fov = 68.0
+
+
+func _build_material_detail() -> void:
+	# Visual pass: small repeated details make the room read as a real old house
+	# without adding heavy external assets, keeping the Android prototype light.
+	var floor_wood := _mat(Color(0.075, 0.042, 0.026), 0.88)
+	var floor_gap := _mat(Color(0.028, 0.020, 0.016), 0.98)
+	for i in range(13):
+		var x: float = -6.4 + float(i) * 1.05
+		for j in range(8):
+			var z: float = -4.35 + float(j) * 1.18
+			var plank := _box(self, Vector3(0.98, 0.018, 1.08), Vector3(x, 0.015, z), floor_wood)
+			if (i + j) % 2 == 0:
+				plank.position.x += 0.18
+			_box(self, Vector3(0.025, 0.022, 1.10), Vector3(x + 0.50, 0.022, z), floor_gap)
+
+	# Ceiling beams and a hanging lamp silhouette.
+	var ceiling_wood := _mat(Color(0.045, 0.026, 0.017), 0.92)
+	for x in [-4.8, -1.6, 1.6, 4.8]:
+		_box(self, Vector3(0.26, 0.28, 9.0), Vector3(x, 3.22, 0), ceiling_wood)
+	_box(self, Vector3(0.55, 0.12, 0.55), Vector3(0, 2.96, 0), ceiling_wood)
+	_cylinder(self, 0.045, 0.42, Vector3(0, 2.76, 0), ceiling_wood)
+
+	# Narrow wall panels create depth instead of a perfectly flat surface.
+	var panel := _mat(Color(0.11, 0.073, 0.048), 0.86)
+	for y in [0.62, 1.22, 1.82]:
+		_box(self, Vector3(13.2, 0.055, 0.08), Vector3(0, y, -4.82), panel)
+	for x in [-6.4, -5.1, -3.8, -2.5, -1.2, 0.1, 1.4, 2.7, 4.0, 5.3, 6.6]:
+		_box(self, Vector3(0.05, 1.95, 0.08), Vector3(x, 1.55, -4.80), panel)
+
+	# Curtain strips at the cold rear window.
+	var curtain := _mat(Color(0.035, 0.044, 0.050), 0.95)
+	for x in [-1.28, -1.02, -0.76, 1.02, 1.28, 0.76]:
+		_box(self, Vector3(0.18, 2.15, 0.06), Vector3(x, 1.85, -4.55), curtain)
+
+	# Dusty picture frames with slightly different tones.
+	var frame_dark := _mat(Color(0.10, 0.055, 0.028), 0.72)
+	var frame_light := _mat(Color(0.16, 0.085, 0.040), 0.68)
+	for data in [[-5.1, 2.15, 1.10, 1.45], [3.0, 2.20, 1.25, 1.55], [4.8, 1.75, 0.92, 1.20]]:
+		var px: float = float(data[0])
+		var py: float = float(data[1])
+		var pw: float = float(data[2])
+		var ph: float = float(data[3])
+		var fm: Material = frame_dark if int(px) % 2 == 0 else frame_light
+		_box(self, Vector3(pw, 0.07, 0.07), Vector3(px, py + ph * 0.5, -4.69), fm)
+		_box(self, Vector3(pw, 0.07, 0.07), Vector3(px, py - ph * 0.5, -4.69), fm)
+		_box(self, Vector3(0.07, ph, 0.07), Vector3(px - pw * 0.5, py, -4.69), fm)
+		_box(self, Vector3(0.07, ph, 0.07), Vector3(px + pw * 0.5, py, -4.69), fm)
+
+	# A weak cold fill separates the flashlight beam from the background.
+	var cold_fill := OmniLight3D.new()
+	cold_fill.position = Vector3(-4.8, 2.15, -4.15)
+	cold_fill.light_color = Color(0.18, 0.25, 0.34)
+	cold_fill.light_energy = 0.34
+	cold_fill.omni_range = 4.5
+	cold_fill.shadow_enabled = true
+	add_child(cold_fill)
 
 func show_interaction(text: String) -> void:
 	message.text = text
