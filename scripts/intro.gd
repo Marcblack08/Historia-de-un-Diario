@@ -292,6 +292,7 @@ func _build_world() -> void:
 
 func _build_ui() -> void:
 	var layer := CanvasLayer.new()
+	layer.layer = 40
 	add_child(layer)
 
 	fade = ColorRect.new()
@@ -338,18 +339,26 @@ func _build_video_player() -> void:
 
 func _start_video_or_photo() -> void:
 	await get_tree().process_frame
-	if ResourceLoader.exists(video_path):
-		var stream: VideoStream = load(video_path) as VideoStream
-		if stream != null:
-			video_mode = true
-			photo.visible = false
-			video_player.stream = stream
-			video_player.visible = true
-			prompt.text = "TOCA PARA OMITIR"
-			await _fade_to(0.0, 0.8)
-			if not skip_requested:
-				video_player.play()
-				return
+	# El video es ahora la cinemática principal. Las fotos quedan solo como respaldo.
+	var stream: VideoStream = null
+	if FileAccess.file_exists(video_path):
+		stream = load(video_path) as VideoStream
+	if stream != null:
+		video_mode = true
+		photo.visible = false
+		video_player.stream = stream
+		video_player.visible = true
+		prompt.text = "TOCA PARA OMITIR"
+		prompt.visible = true
+		caption.visible = false
+		await _fade_to(0.0, 0.8)
+		if not skip_requested:
+			video_player.play()
+		return
+	# Si el video todavía no fue importado por Godot, usamos el sistema fotográfico anterior.
+	photo.visible = true
+	caption.visible = true
+	prompt.visible = true
 	_start_cinematic()
 
 func _on_video_finished() -> void:
