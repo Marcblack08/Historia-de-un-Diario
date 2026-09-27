@@ -14,9 +14,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		camera.rotate_x(-event.relative.y * mouse_sensitivity)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-85.0), deg_to_rad(85.0))
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _physics_process(delta: float) -> void:
-	var input_vec := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var input_vec := Vector2.ZERO
+	if Input.is_key_pressed(KEY_A): input_vec.x -= 1.0
+	if Input.is_key_pressed(KEY_D): input_vec.x += 1.0
+	if Input.is_key_pressed(KEY_W): input_vec.y -= 1.0
+	if Input.is_key_pressed(KEY_S): input_vec.y += 1.0
+
 	var direction := (transform.basis * Vector3(input_vec.x, 0.0, input_vec.y)).normalized()
 	velocity.x = direction.x * speed
 	velocity.z = direction.z * speed
@@ -28,5 +35,8 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-	if Input.is_action_just_pressed("flashlight"):
+	if Input.is_key_pressed(KEY_F) and not get_meta("flashlight_pressed", false):
 		$Camera3D/Flashlight.visible = not $Camera3D/Flashlight.visible
+		set_meta("flashlight_pressed", true)
+	elif not Input.is_key_pressed(KEY_F):
+		set_meta("flashlight_pressed", false)
