@@ -5,6 +5,14 @@ var camera: Camera3D
 var fade: ColorRect
 var caption: Label
 var prompt: Label
+var photo_layer: CanvasLayer
+var photo: TextureRect
+var photo_paths := [
+	"res://ui/cinematic/arrival_01.jpg",
+	"res://ui/cinematic/arrival_02.jpg",
+	"res://ui/cinematic/arrival_03.jpg",
+	"res://ui/cinematic/arrival_04.jpg"
+]
 var cinematic_active := true
 var skip_requested := false
 var rain: GPUParticles3D
@@ -19,6 +27,7 @@ var lightning_flash := 0.0
 func _ready() -> void:
 	_build_world()
 	_build_ui()
+	_build_photo_cinematic()
 	_start_cinematic()
 
 func _process(delta: float) -> void:
@@ -290,6 +299,52 @@ func _build_ui() -> void:
 	prompt.add_theme_color_override("font_color", Color(0.65, 0.62, 0.57, 0.72))
 	layer.add_child(prompt)
 
+func _build_photo_cinematic() -> void:
+	photo_layer = CanvasLayer.new()
+	photo_layer.layer = 20
+	add_child(photo_layer)
+
+	photo = TextureRect.new()
+	photo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	photo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	photo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	photo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	photo.modulate = Color(1, 1, 1, 0)
+	photo_layer.add_child(photo)
+
+func _find_photo(index: int) -> Texture2D:
+	if index >= 0 and index < photo_paths.size():
+		var p := photo_paths[index]
+		if ResourceLoader.exists(p):
+			return load(p) as Texture2D
+	var fallback := "res://ui/main_menu_cinematic_github.jpg"
+	if ResourceLoader.exists(fallback):
+		return load(fallback) as Texture2D
+	return null
+
+func _photo_shot(index: int, duration: float, zoom: float, pan: Vector2) -> void:
+	var texture := _find_photo(index)
+	if texture == null:
+		return
+	photo.texture = texture
+	photo.pivot_offset = Vector2(576, 324)
+	photo.scale = Vector2.ONE
+	photo.position = Vector2.ZERO
+	photo.modulate.a = 0.0
+	var t := create_tween()
+	t.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	t.tween_property(photo, "modulate:a", 1.0, 0.55)
+	t.parallel().tween_property(photo, "scale", Vector2(zoom, zoom), duration)
+	t.parallel().tween_property(photo, "position", pan, duration)
+	await t.finished
+
+func _hide_photo(duration: float) -> void:
+	if not is_instance_valid(photo):
+		return
+	var t := create_tween()
+	t.tween_property(photo, "modulate:a", 0.0, duration)
+	await t.finished
+
 func _fade_to(alpha: float, duration: float) -> void:
 	var t := create_tween()
 	t.tween_property(fade, "color:a", alpha, duration)
@@ -338,12 +393,32 @@ func _start_cinematic() -> void:
 		_finish()
 		return
 
-	await _caption("Hay lugares a los que uno nunca debería volver.", 3.4)
+	await _photo_shot(0, 3.6, 1.045, Vector2(-12, 2))
+	await _caption("Hay lugares a los que uno nunca debería volver.", 2.7)
 	if skip_requested:
+		await _hide_photo(0.2)
 		_finish()
 		return
 
-	await _move_camera(Vector3(5.85, 1.62, 5.10), Vector3(0.0, 2.4, -8.6), 2.8)
+	await _photo_shot(1, 3.8, 1.065, Vector2(14, -3))
+	await _caption("Después de muchos años...", 2.3)
+	if skip_requested:
+		await _hide_photo(0.2)
+		_finish()
+		return
+
+	await _photo_shot(2, 3.6, 1.055, Vector2(-8, -2))
+	await _caption("La casa seguía allí.", 2.2)
+	if skip_requested:
+		await _hide_photo(0.2)
+		_finish()
+		return
+
+	await _photo_shot(3, 3.2, 1.075, Vector2(10, 1))
+	await _caption("Pero no estaba vacía.", 2.3)
+	await _hide_photo(0.8)
+
+	await _move_camera(Vector3(5.85, 1.62, 5.10), Vector3(0.0, 2.4, -8.6), 2.0)
 	await _caption("Después de muchos años...", 2.2)
 	if skip_requested:
 		_finish()
