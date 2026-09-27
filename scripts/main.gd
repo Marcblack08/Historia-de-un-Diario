@@ -81,7 +81,7 @@ func _upgrade_base_geometry() -> void:
 	$Walls/FrontRight/Mesh.material_override = wall_mat
 
 	$Door/Mesh.material_override = _mat(Color(0.065, 0.030, 0.018), 0.74)
-	$Table.material_override = _mat(Color(0.075, 0.038, 0.020), 0.70)
+	$Table/Mesh.material_override = _mat(Color(0.075, 0.038, 0.020), 0.70)
 
 	var paper_mat := _mat(Color(0.48, 0.43, 0.32), 0.94)
 	$DiaryPage/Mesh.material_override = paper_mat
