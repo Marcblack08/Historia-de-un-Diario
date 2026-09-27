@@ -26,9 +26,9 @@ size = Vector3(14, 0.2, 10)
 [sub_resource type="BoxShape3D" id="FloorShape"]
 size = Vector3(14, 0.2, 10)
 [sub_resource type="BoxMesh" id="WallMesh"]
-size = Vector3(0.25, 3.2, 10)
+size = Vector3(0.25, 3.6, 10)
 [sub_resource type="BoxMesh" id="WallMeshLong"]
-size = Vector3(14, 3.2, 0.25)
+size = Vector3(14, 3.6, 0.25)
 [sub_resource type="BoxMesh" id="DoorMesh"]
 size = Vector3(0.92, 2.10, 0.08)
 [sub_resource type="BoxMesh" id="TableMesh"]
@@ -55,27 +55,27 @@ shape = SubResource("FloorShape")
 
 [node name="Walls" type="Node3D" parent="."]
 [node name="Left" type="StaticBody3D" parent="Walls"]
-position = Vector3(-7, 1.6, 0)
+position = Vector3(-7, 1.8, 0)
 [node name="Mesh" type="MeshInstance3D" parent="Walls/Left"]
 mesh = SubResource("WallMesh")
 material_override = SubResource("Mat_wall")
 [node name="Right" type="StaticBody3D" parent="Walls"]
-position = Vector3(7, 1.6, 0)
+position = Vector3(7, 1.8, 0)
 [node name="Mesh" type="MeshInstance3D" parent="Walls/Right"]
 mesh = SubResource("WallMesh")
 material_override = SubResource("Mat_wall")
 [node name="Back" type="StaticBody3D" parent="Walls"]
-position = Vector3(0, 1.6, -5)
+position = Vector3(0, 1.8, -5)
 [node name="Mesh" type="MeshInstance3D" parent="Walls/Back"]
 mesh = SubResource("WallMeshLong")
 material_override = SubResource("Mat_wall")
 [node name="FrontLeft" type="StaticBody3D" parent="Walls"]
-position = Vector3(-5.1, 1.6, 5)
+position = Vector3(-5.1, 1.8, 5)
 [node name="Mesh" type="MeshInstance3D" parent="Walls/FrontLeft"]
 mesh = SubResource("WallMeshLong")
 material_override = SubResource("Mat_wall")
 [node name="FrontRight" type="StaticBody3D" parent="Walls"]
-position = Vector3(5.1, 1.6, 5)
+position = Vector3(5.1, 1.8, 5)
 [node name="Mesh" type="MeshInstance3D" parent="Walls/FrontRight"]
 mesh = SubResource("WallMeshLong")
 material_override = SubResource("Mat_wall")
