@@ -293,18 +293,18 @@ func _build_first_floor_story_space() -> void:
 	var stair_mat := _mat(Color(0.075, 0.040, 0.024), 0.84)
 	var riser_mat := _mat(Color(0.045, 0.028, 0.019), 0.92)
 	for i in range(8):
-		var z := -1.8 - float(i) * 0.38
-		var y := 0.10 + float(i) * 0.20
-		var step := _box(self, Vector3(2.6, 0.20, 0.72), Vector3(4.15, y, z), stair_mat)
+		var z := -1.45 - float(i) * 0.32
+		var y := 0.0875 + float(i) * 0.175
+		var step := _box(self, Vector3(2.6, 0.175, 0.32), Vector3(4.15, y, z), stair_mat)
 		step.name = "Stair_%02d" % i
-		_box(self, Vector3(2.62, 0.10, 0.10), Vector3(4.15, y + 0.13, z - 0.30), riser_mat)
-	# Upstairs landing hint.
-	_box(self, Vector3(3.0, 0.16, 2.0), Vector3(4.15, 1.72, -4.0), stair_mat)
-	# A locked door at the top.
+		_box(self, Vector3(2.62, 0.055, 0.06), Vector3(4.15, y + 0.115, z - 0.13), riser_mat)
+	# Upstairs landing at ~1.40 m, using a realistic residential rise.
+	_box(self, Vector3(3.0, 0.16, 1.6), Vector3(4.15, 1.43, -4.15), stair_mat)
+	# A normal-height interior door aligned with the landing.
 	var locked_mat := _mat(Color(0.035, 0.022, 0.015), 0.75)
-	_box(self, Vector3(1.55, 2.75, 0.16), Vector3(4.15, 3.10, -4.82), locked_mat)
+	_box(self, Vector3(0.92, 2.05, 0.08), Vector3(4.15, 2.455, -4.82), locked_mat)
 	var lock_light := OmniLight3D.new()
-	lock_light.position = Vector3(4.15, 2.5, -4.45)
+	lock_light.position = Vector3(4.15, 2.30, -4.45)
 	lock_light.light_color = Color(0.35, 0.12, 0.07)
 	lock_light.light_energy = 0.35
 	lock_light.omni_range = 2.5
