@@ -66,10 +66,10 @@ func _cylinder(parent: Node3D, radius: float, height: float, pos: Vector3, mater
 	parent.add_child(n)
 	return n
 
-func _tree(pos: Vector3, scale := 1.0) -> void:
+func _tree(pos: Vector3, size_scale := 1.0) -> void:
 	var tree := Node3D.new()
 	tree.position = pos
-	tree.scale = Vector3.ONE * scale
+	tree.scale = Vector3.ONE * size_scale
 	add_child(tree)
 	var trunk := _mat(Color(0.055, 0.038, 0.025), 0.95)
 	_cylinder(tree, 0.22, 3.8, Vector3(0, 1.9, 0), trunk)
