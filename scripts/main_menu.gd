@@ -9,6 +9,7 @@ extends Control
 @onready var back_button: Button = $Center/SettingsPanel/SettingsBox/Back
 @onready var background: TextureRect = $Background
 @onready var center: Control = $Center
+@onready var eyebrow: Label = $Center/MainPanel/Eyebrow
 @onready var title_top: Label = $Center/MainPanel/TitleTop
 @onready var title: Label = $Center/MainPanel/Title
 @onready var subtitle: Label = $Center/MainPanel/Subtitle
@@ -36,6 +37,7 @@ func _play_intro_animation() -> void:
 	background.modulate.a = 0.0
 	background.scale = Vector2(1.035, 1.035)
 	center.modulate.a = 0.0
+	eyebrow.modulate.a = 0.0
 	title_top.position.y += 18.0
 	title.position.y += 24.0
 	subtitle.position.y += 28.0
@@ -49,6 +51,7 @@ func _play_intro_animation() -> void:
 	fade.tween_property(background, "modulate:a", 1.0, 0.75)
 	fade.tween_property(background, "scale", Vector2.ONE, 3.2)
 	fade.tween_property(center, "modulate:a", 1.0, 0.55)
+	fade.tween_property(eyebrow, "modulate:a", 1.0, 0.40)
 
 	var title_tween := create_tween()
 	title_tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
@@ -63,6 +66,18 @@ func _play_intro_animation() -> void:
 		button_tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 		button_tween.tween_property(buttons[i], "modulate:a", 1.0, 0.28)
 		button_tween.tween_property(buttons[i], "position:x", buttons[i].position.x + 24.0, 0.30)
+		buttons[i].mouse_entered.connect(_on_button_enter.bind(buttons[i]))
+		buttons[i].mouse_exited.connect(_on_button_exit.bind(buttons[i]))
+
+func _on_button_enter(button: Button) -> void:
+	var t := create_tween()
+	t.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	t.tween_property(button, "scale", Vector2(1.025, 1.025), 0.12)
+
+func _on_button_exit(button: Button) -> void:
+	var t := create_tween()
+	t.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	t.tween_property(button, "scale", Vector2.ONE, 0.12)
 
 func _apply_cinematic_background() -> void:
 	# The cinematic JPEG is preferred when present; SVG remains a safe fallback
