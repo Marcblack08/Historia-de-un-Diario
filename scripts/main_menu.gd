@@ -38,9 +38,6 @@ func _play_intro_animation() -> void:
 	background.scale = Vector2(1.035, 1.035)
 	center.modulate.a = 0.0
 	eyebrow.modulate.a = 0.0
-	title_top.position.y += 18.0
-	title.position.y += 24.0
-	subtitle.position.y += 28.0
 	rule.modulate.a = 0.0
 	for button in buttons:
 		button.modulate.a = 0.0
@@ -54,11 +51,12 @@ func _play_intro_animation() -> void:
 	fade.tween_property(eyebrow, "modulate:a", 1.0, 0.40)
 
 	var title_tween := create_tween()
+	title_tween.set_parallel(true)
 	title_tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
-	title_tween.tween_property(title_top, "position:y", title_top.position.y - 18.0, 0.45)
-	title_tween.tween_property(title, "position:y", title.position.y - 24.0, 0.48)
-	title_tween.tween_property(subtitle, "position:y", subtitle.position.y - 28.0, 0.52)
-	title_tween.tween_property(rule, "modulate:a", 1.0, 0.25)
+	title_tween.tween_property(title_top, "modulate:a", 1.0, 0.35)
+	title_tween.tween_property(title, "modulate:a", 1.0, 0.42)
+	title_tween.tween_property(subtitle, "modulate:a", 1.0, 0.48)
+	title_tween.tween_property(rule, "modulate:a", 1.0, 0.30)
 
 	for i in range(buttons.size()):
 		var button_tween := create_tween()
