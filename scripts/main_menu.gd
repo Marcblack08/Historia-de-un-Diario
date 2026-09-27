@@ -8,6 +8,12 @@ extends Control
 @onready var exit_button: Button = $Center/MainPanel/Exit
 @onready var back_button: Button = $Center/SettingsPanel/SettingsBox/Back
 @onready var background: TextureRect = $Background
+@onready var center: Control = $Center
+@onready var title_top: Label = $Center/MainPanel/TitleTop
+@onready var title: Label = $Center/MainPanel/Title
+@onready var subtitle: Label = $Center/MainPanel/Subtitle
+@onready var rule: ColorRect = $Center/MainPanel/Rule
+@onready var buttons: Array[Button] = [$Center/MainPanel/NewGame, $Center/MainPanel/Continue, $Center/MainPanel/Settings, $Center/MainPanel/Exit]
 
 func _ready() -> void:
 	main_panel.visible = true
@@ -15,6 +21,7 @@ func _ready() -> void:
 	continue_game.disabled = true
 	_apply_cinematic_background()
 
+	_play_intro_animation()
 	new_game.pressed.connect(_new_game)
 	settings_button.pressed.connect(_open_settings)
 	exit_button.pressed.connect(_exit_game)
@@ -22,6 +29,40 @@ func _ready() -> void:
 
 	await get_tree().process_frame
 	new_game.grab_focus()
+
+func _play_intro_animation() -> void:
+	# Cinematic entrance: background breathes in while the title and controls
+	# arrive with a short stagger. Designed to remain light on Android.
+	background.modulate.a = 0.0
+	background.scale = Vector2(1.035, 1.035)
+	center.modulate.a = 0.0
+	title_top.position.y += 18.0
+	title.position.y += 24.0
+	subtitle.position.y += 28.0
+	rule.modulate.a = 0.0
+	for button in buttons:
+		button.modulate.a = 0.0
+		button.position.x -= 24.0
+
+	var fade := create_tween().set_parallel(true)
+	fade.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	fade.tween_property(background, "modulate:a", 1.0, 0.75)
+	fade.tween_property(background, "scale", Vector2.ONE, 3.2)
+	fade.tween_property(center, "modulate:a", 1.0, 0.55)
+
+	var title_tween := create_tween()
+	title_tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	title_tween.tween_property(title_top, "position:y", title_top.position.y - 18.0, 0.45)
+	title_tween.tween_property(title, "position:y", title.position.y - 24.0, 0.48)
+	title_tween.tween_property(subtitle, "position:y", subtitle.position.y - 28.0, 0.52)
+	title_tween.tween_property(rule, "modulate:a", 1.0, 0.25)
+
+	for i in range(buttons.size()):
+		var button_tween := create_tween()
+		button_tween.tween_interval(0.12 * float(i))
+		button_tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+		button_tween.tween_property(buttons[i], "modulate:a", 1.0, 0.28)
+		button_tween.tween_property(buttons[i], "position:x", buttons[i].position.x + 24.0, 0.30)
 
 func _apply_cinematic_background() -> void:
 	# The cinematic JPEG is preferred when present; SVG remains a safe fallback
