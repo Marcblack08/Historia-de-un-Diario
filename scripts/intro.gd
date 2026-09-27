@@ -11,7 +11,15 @@ var photo_paths := [
 	"res://ui/cinematic/arrival_01.jpg",
 	"res://ui/cinematic/arrival_02.jpg",
 	"res://ui/cinematic/arrival_03.jpg",
-	"res://ui/cinematic/arrival_04.jpg"
+	"res://ui/cinematic/arrival_04.jpg",
+	"res://ui/cinematic/arrival_05.jpg",
+	"res://ui/cinematic/arrival_06.jpg",
+	"res://ui/cinematic/arrival_07.jpg",
+	"res://ui/cinematic/arrival_08.jpg",
+	"res://ui/cinematic/arrival_09.jpg",
+	"res://ui/cinematic/arrival_10.jpg",
+	"res://ui/cinematic/arrival_11.jpg",
+	"res://ui/cinematic/arrival_12.jpg"
 ]
 var cinematic_active := true
 var skip_requested := false
@@ -393,29 +401,90 @@ func _start_cinematic() -> void:
 		_finish()
 		return
 
-	await _photo_shot(0, 3.6, 1.045, Vector2(-12, 2))
-	await _caption("Hay lugares a los que uno nunca debería volver.", 2.7)
+	await _photo_shot(0, 3.4, 1.045, Vector2(-12, 2))
+	await _caption("Hay lugares a los que uno nunca debería volver.", 2.2)
 	if skip_requested:
 		await _hide_photo(0.2)
 		_finish()
 		return
 
-	await _photo_shot(1, 3.8, 1.065, Vector2(14, -3))
-	await _caption("Después de muchos años...", 2.3)
+	await _photo_shot(1, 3.2, 1.055, Vector2(12, -2))
+	await _caption("Después de muchos años...", 2.0)
 	if skip_requested:
 		await _hide_photo(0.2)
 		_finish()
 		return
 
-	await _photo_shot(2, 3.6, 1.055, Vector2(-8, -2))
-	await _caption("La casa seguía allí.", 2.2)
+	await _photo_shot(2, 3.0, 1.06, Vector2(-9, 1))
+	await _caption("Volví al lugar que había jurado olvidar.", 2.1)
 	if skip_requested:
 		await _hide_photo(0.2)
 		_finish()
 		return
 
-	await _photo_shot(3, 3.2, 1.075, Vector2(10, 1))
-	await _caption("Pero no estaba vacía.", 2.3)
+	await _photo_shot(3, 3.0, 1.07, Vector2(10, -1))
+	await _caption("La casa seguía allí.", 2.0)
+	if skip_requested:
+		await _hide_photo(0.2)
+		_finish()
+		return
+
+	await _photo_shot(4, 2.8, 1.065, Vector2(-8, 0))
+	await _caption("El portón estaba abierto.", 1.9)
+	if skip_requested:
+		await _hide_photo(0.2)
+		_finish()
+		return
+
+	await _photo_shot(5, 3.0, 1.055, Vector2(8, -2))
+	await _caption("Pero algo había cambiado.", 2.0)
+	if skip_requested:
+		await _hide_photo(0.2)
+		_finish()
+		return
+
+	await _photo_shot(6, 2.8, 1.08, Vector2(-10, 2))
+	await _caption("Alguien estaba mirando desde arriba.", 2.0)
+	if skip_requested:
+		await _hide_photo(0.2)
+		_finish()
+		return
+
+	await _photo_shot(7, 2.8, 1.065, Vector2(7, 0))
+	await _caption("No recuerdo haber dejado esa puerta abierta.", 2.1)
+	if skip_requested:
+		await _hide_photo(0.2)
+		_finish()
+		return
+
+	await _photo_shot(8, 2.6, 1.085, Vector2(-7, -1))
+	await _caption("Entonces escuché algo detrás de mí.", 1.9)
+	if skip_requested:
+		await _hide_photo(0.2)
+		_finish()
+		return
+
+	await _photo_shot(9, 3.0, 1.055, Vector2(9, 1))
+	await _caption("La casa estaba exactamente como la recordaba...", 2.0)
+	if skip_requested:
+		await _hide_photo(0.2)
+		_finish()
+		return
+
+	await _photo_shot(10, 3.2, 1.065, Vector2(-10, 0))
+	await _caption("Excepto por una cosa.", 2.0)
+	if skip_requested:
+		await _hide_photo(0.2)
+		_finish()
+		return
+
+	await _photo_shot(11, 3.4, 1.075, Vector2(8, -1))
+	await _caption("El diario no era mío.", 2.4)
+	if skip_requested:
+		await _hide_photo(0.2)
+		_finish()
+		return
+
 	await _hide_photo(0.8)
 
 	await _move_camera(Vector3(5.85, 1.62, 5.10), Vector3(0.0, 2.4, -8.6), 2.0)
