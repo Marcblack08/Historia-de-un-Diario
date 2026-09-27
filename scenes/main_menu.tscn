@@ -1,0 +1,255 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
+
+[sub_resource type="Gradient" id="Gradient_bg"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(0.012, 0.012, 0.015, 1, 0.035, 0.032, 0.028, 1, 0.005, 0.006, 0.008, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture_bg"]
+gradient = SubResource("Gradient_bg")
+width = 1280
+height = 720
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+bg_color = Color(0.055, 0.052, 0.047, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.45, 0.42, 0.34, 0.5)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 24.0
+content_margin_right = 24.0
+content_margin_top = 15.0
+content_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxFlat" id="Style_button_hover"]
+bg_color = Color(0.13, 0.11, 0.085, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.72, 0.61, 0.42, 0.85)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 24.0
+content_margin_right = 24.0
+content_margin_top = 15.0
+content_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxFlat" id="Style_panel"]
+bg_color = Color(0.025, 0.023, 0.021, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.32, 0.27, 0.6)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 42.0
+content_margin_top = 34.0
+content_margin_right = 42.0
+content_margin_bottom = 34.0
+
+[sub_resource type="StyleBoxFlat" id="Style_separator"]
+bg_color = Color(0.5, 0.44, 0.32, 0.65)
+
+[sub_resource type="StyleBoxFlat" id="Style_badge"]
+bg_color = Color(0.08, 0.065, 0.045, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture_bg")
+expand_mode = 1
+stretch_mode = 6
+mouse_filter = 2
+
+[node name="Ambience" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.16, 0.13, 0.09, 0.5)
+mouse_filter = 2
+
+[node name="TopLine" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 62.0
+offset_right = 1210.0
+offset_bottom = 63.0
+color = Color(0.43, 0.38, 0.29, 0.45)
+mouse_filter = 2
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainPanel" type="VBoxContainer" parent="Center"]
+custom_minimum_size = Vector2(430, 0)
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Eyebrow" type="Label" parent="Center/MainPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.52, 0.42, 1)
+theme_override_font_sizes/font_size = 14
+text = "UNA HISTORIA DE TERROR PSICOLÓGICO"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="Center/MainPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.84, 0.74, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 46
+text = "HISTORIA DE UN DIARIO"
+horizontal_alignment = 1
+
+[node name="Rule" type="ColorRect" parent="Center/MainPanel"]
+custom_minimum_size = Vector2(110, 2)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0.56, 0.47, 0.32, 0.8)
+mouse_filter = 2
+
+[node name="Subtitle" type="Label" parent="Center/MainPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.63, 0.61, 0.57, 1)
+theme_override_font_sizes/font_size = 19
+text = "El diario que no es mío"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Center/MainPanel"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="NewGame" type="Button" parent="Center/MainPanel"]
+custom_minimum_size = Vector2(430, 62)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.87, 0.84, 0.76, 1)
+theme_override_colors/font_hover_color = Color(0.98, 0.94, 0.82, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+text = "NUEVA HISTORIA"
+
+[node name="Continue" type="Button" parent="Center/MainPanel"]
+custom_minimum_size = Vector2(430, 62)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+text = "CONTINUAR"
+
+[node name="Settings" type="Button" parent="Center/MainPanel"]
+custom_minimum_size = Vector2(430, 62)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.75, 0.68, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.91, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+text = "AJUSTES"
+
+[node name="Exit" type="Button" parent="Center/MainPanel"]
+custom_minimum_size = Vector2(430, 62)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.59, 0.54, 1)
+theme_override_colors/font_hover_color = Color(0.88, 0.82, 0.7, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+text = "SALIR"
+
+[node name="Footer" type="Label" parent="Center/MainPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38, 0.37, 0.34, 1)
+theme_override_font_sizes/font_size = 12
+text = "PROTOCOLO 0.3  •  MARC BLACK STUDIOS"
+horizontal_alignment = 1
+
+[node name="SettingsPanel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="SettingsBox" type="VBoxContainer" parent="Center/SettingsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="Center/SettingsPanel/SettingsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.84, 0.74, 1)
+theme_override_font_sizes/font_size = 30
+text = "AJUSTES"
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Center/SettingsPanel/SettingsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.56, 0.52, 1)
+theme_override_font_sizes/font_size = 15
+text = "Los controles de audio, sensibilidad y accesibilidad
+se incorporarán en la siguiente versión."
+horizontal_alignment = 1
+
+[node name="Back" type="Button" parent="Center/SettingsPanel/SettingsBox"]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_hover")
+text = "VOLVER"
+
+[node name="Version" type="Label" parent="."]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 670.0
+offset_right = 1210.0
+offset_bottom = 696.0
+theme_override_colors/font_color = Color(0.36, 0.35, 0.32, 1)
+theme_override_font_sizes/font_size = 12
+text = "v0.3  •  ANDROID / PC"
+horizontal_alignment = 2
+mouse_filter = 2
