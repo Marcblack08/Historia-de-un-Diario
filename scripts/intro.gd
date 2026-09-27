@@ -322,7 +322,7 @@ func _build_photo_cinematic() -> void:
 
 func _find_photo(index: int) -> Texture2D:
 	if index >= 0 and index < photo_paths.size():
-		var p := photo_paths[index]
+		var p: String = photo_paths[index]
 		if ResourceLoader.exists(p):
 			return load(p) as Texture2D
 	var fallback := "res://ui/main_menu_cinematic_github.jpg"
