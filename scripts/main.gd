@@ -3,6 +3,10 @@ extends Node3D
 @onready var message: Label = $UI/Message
 @onready var diary_panel: ColorRect = $UI/DiaryPanel
 @onready var touch: Control = $UI/TouchController
+var diary_read := false
+var lights_on := false
+var upstairs_locked := true
+var scare_timer := 0.0
 
 func _ready() -> void:
 	add_to_group("game")
@@ -13,6 +17,7 @@ func _ready() -> void:
 	touch.flashlight_pressed.connect($Player.flashlight)
 	touch.interact_pressed.connect($Player.interact)
 	_build_visual_environment()
+	_build_first_floor_story_space()
 
 func _mat(color: Color, roughness := 0.8, metallic := 0.0, emission := Color(0, 0, 0, 1)) -> StandardMaterial3D:
 	var m := StandardMaterial3D.new()
@@ -165,6 +170,43 @@ func show_interaction(text: String) -> void:
 	message.text = text
 	if text.begins_with("DIARIO"):
 		diary_panel.visible = true
+		diary_read = true
+		message.text = "El diario está abierto.\n\nEncuentra el interruptor de la entrada."
+		_build_story_after_diary()
+
+func _build_first_floor_story_space() -> void:
+	# A staircase is the visual promise of the second floor.
+	var stair_mat := _mat(Color(0.075, 0.040, 0.024), 0.84)
+	var riser_mat := _mat(Color(0.045, 0.028, 0.019), 0.92)
+	for i in range(8):
+		var z := -1.8 - float(i) * 0.38
+		var y := 0.10 + float(i) * 0.20
+		var step := _box(self, Vector3(2.6, 0.20, 0.72), Vector3(4.15, y, z), stair_mat)
+		step.name = "Stair_%02d" % i
+		_box(self, Vector3(2.62, 0.10, 0.10), Vector3(4.15, y + 0.13, z - 0.30), riser_mat)
+	# Upstairs landing hint.
+	_box(self, Vector3(3.0, 0.16, 2.0), Vector3(4.15, 1.72, -4.0), stair_mat)
+	# A locked door at the top.
+	var locked_mat := _mat(Color(0.035, 0.022, 0.015), 0.75)
+	_box(self, Vector3(1.55, 2.75, 0.16), Vector3(4.15, 3.10, -4.82), locked_mat)
+	var lock_light := OmniLight3D.new()
+	lock_light.position = Vector3(4.15, 2.5, -4.45)
+	lock_light.light_color = Color(0.35, 0.12, 0.07)
+	lock_light.light_energy = 0.35
+	lock_light.omni_range = 2.5
+	add_child(lock_light)
+
+func _build_story_after_diary() -> void:
+	if not diary_read:
+		return
+	if not lights_on:
+		lights_on = true
+		$CeilingLight.light_energy = 0.75
+		$CeilingLight.light_color = Color(1.0, 0.52, 0.22)
+		message.text = "El diario está abierto.\n\nEl interruptor de la entrada acaba de encenderse."
+		var pulse := create_tween()
+		pulse.tween_property($CeilingLight, "light_energy", 0.08, 0.12)
+		pulse.tween_property($CeilingLight, "light_energy", 0.75, 0.18)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
