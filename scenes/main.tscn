@@ -33,8 +33,9 @@ size = Vector3(14, 3.2, 0.25)
 size = Vector3(1.8, 2.5, 0.18)
 [sub_resource type="BoxMesh" id="PaperMesh"]
 size = Vector3(0.65, 0.02, 0.9)
-[sub_resource type="BoxShape3D" id="PlayerShape"]
-size = Vector3(0.7, 1.8, 0.7)
+[sub_resource type="CapsuleShape3D" id="PlayerShape"]
+radius = 0.32
+height = 1.8
 [sub_resource type="BoxShape3D" id="InteractShape"]
 size = Vector3(1.2, 0.3, 1.2)
 
@@ -88,7 +89,7 @@ mesh = SubResource("DoorMesh")
 material_override = SubResource("Mat_wood")
 
 [node name="DiaryPage" type="Area3D" parent="."]
-position = Vector3(0, 1.35, -1.2)
+position = Vector3(0, 0.98, -1.2)
 script = ExtResource("4_interact")
 item_name = "Investigar la hoja"
 inspect_text = "DIARIO\\n\\nVolví a esta casa después de muchos años.\\nNo recordaba que la puerta del segundo piso\\nsiempre hubiera estado cerrada."
@@ -99,12 +100,12 @@ material_override = SubResource("Mat_paper")
 shape = SubResource("InteractShape")
 
 [node name="Player" type="CharacterBody3D" parent="."]
-position = Vector3(0, 1.0, 3.2)
+position = Vector3(0, 0.9, 3.2)
 script = ExtResource("2_player")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("PlayerShape")
 [node name="Camera3D" type="Camera3D" parent="Player"]
-position = Vector3(0, 0.65, 0)
+position = Vector3(0, 0.72, 0)
 current = true
 fov = 72.0
 [node name="Flashlight" type="SpotLight3D" parent="Player/Camera3D"]
