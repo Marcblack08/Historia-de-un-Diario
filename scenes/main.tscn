@@ -1,88 +1,82 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_player"]
 [ext_resource type="Script" path="res://scripts/flashlight.gd" id="3_light"]
+[ext_resource type="Script" path="res://scripts/interactable.gd" id="4_interact"]
 
 [sub_resource type="StandardMaterial3D" id="Mat_floor"]
 albedo_color = Color(0.08, 0.07, 0.065, 1)
 roughness = 0.92
-
 [sub_resource type="StandardMaterial3D" id="Mat_wall"]
 albedo_color = Color(0.19, 0.18, 0.17, 1)
 roughness = 0.88
-
 [sub_resource type="StandardMaterial3D" id="Mat_wood"]
 albedo_color = Color(0.16, 0.09, 0.055, 1)
 roughness = 0.82
-
 [sub_resource type="StandardMaterial3D" id="Mat_door"]
 albedo_color = Color(0.10, 0.055, 0.035, 1)
 roughness = 0.8
-
+[sub_resource type="StandardMaterial3D" id="Mat_paper"]
+albedo_color = Color(0.48, 0.45, 0.36, 1)
+roughness = 1.0
 [sub_resource type="BoxMesh" id="FloorMesh"]
 size = Vector3(14, 0.2, 10)
-
 [sub_resource type="BoxShape3D" id="FloorShape"]
 size = Vector3(14, 0.2, 10)
-
 [sub_resource type="BoxMesh" id="WallMesh"]
 size = Vector3(0.25, 3.2, 10)
-
 [sub_resource type="BoxMesh" id="WallMeshLong"]
 size = Vector3(14, 3.2, 0.25)
-
 [sub_resource type="BoxMesh" id="DoorMesh"]
 size = Vector3(1.8, 2.5, 0.18)
-
-[sub_resource type="CapsuleShape3D" id="PlayerShape"]
-radius = 0.35
-height = 1.8
+[sub_resource type="BoxMesh" id="PaperMesh"]
+size = Vector3(0.65, 0.02, 0.9)
+[sub_resource type="BoxShape3D" id="PlayerShape"]
+size = Vector3(0.7, 1.8, 0.7)
+[sub_resource type="BoxShape3D" id="InteractShape"]
+size = Vector3(1.2, 0.3, 1.2)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_main")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-
 [node name="Floor" type="StaticBody3D" parent="."]
 position = Vector3(0, -0.1, 0)
-
 [node name="Mesh" type="MeshInstance3D" parent="Floor"]
 mesh = SubResource("FloorMesh")
 material_override = SubResource("Mat_floor")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 shape = SubResource("FloorShape")
 
 [node name="Walls" type="Node3D" parent="."]
-
-[node name="Left" type="MeshInstance3D" parent="Walls"]
+[node name="Left" type="StaticBody3D" parent="Walls"]
 position = Vector3(-7, 1.6, 0)
+[node name="Mesh" type="MeshInstance3D" parent="Walls/Left"]
 mesh = SubResource("WallMesh")
 material_override = SubResource("Mat_wall")
-
-[node name="Right" type="MeshInstance3D" parent="Walls"]
+[node name="Right" type="StaticBody3D" parent="Walls"]
 position = Vector3(7, 1.6, 0)
+[node name="Mesh" type="MeshInstance3D" parent="Walls/Right"]
 mesh = SubResource("WallMesh")
 material_override = SubResource("Mat_wall")
-
-[node name="Back" type="MeshInstance3D" parent="Walls"]
+[node name="Back" type="StaticBody3D" parent="Walls"]
 position = Vector3(0, 1.6, -5)
+[node name="Mesh" type="MeshInstance3D" parent="Walls/Back"]
 mesh = SubResource("WallMeshLong")
 material_override = SubResource("Mat_wall")
-
-[node name="FrontLeft" type="MeshInstance3D" parent="Walls"]
+[node name="FrontLeft" type="StaticBody3D" parent="Walls"]
 position = Vector3(-5.1, 1.6, 5)
+[node name="Mesh" type="MeshInstance3D" parent="Walls/FrontLeft"]
 mesh = SubResource("WallMeshLong")
 material_override = SubResource("Mat_wall")
-
-[node name="FrontRight" type="MeshInstance3D" parent="Walls"]
+[node name="FrontRight" type="StaticBody3D" parent="Walls"]
 position = Vector3(5.1, 1.6, 5)
+[node name="Mesh" type="MeshInstance3D" parent="Walls/FrontRight"]
 mesh = SubResource("WallMeshLong")
 material_override = SubResource("Mat_wall")
 
-[node name="Door" type="MeshInstance3D" parent="."]
+[node name="Door" type="StaticBody3D" parent="."]
 position = Vector3(5.1, 1.25, -4.88)
+[node name="Mesh" type="MeshInstance3D" parent="Door"]
 mesh = SubResource("DoorMesh")
 material_override = SubResource("Mat_door")
 
@@ -92,18 +86,26 @@ scale = Vector3(1.6, 1.0, 0.75)
 mesh = SubResource("DoorMesh")
 material_override = SubResource("Mat_wood")
 
+[node name="DiaryPage" type="Area3D" parent="."]
+position = Vector3(0, 1.35, -1.2)
+script = ExtResource("4_interact")
+item_name = "Investigar la hoja"
+inspect_text = "DIARIO\n\n"Volví a esta casa después de muchos años.\nNo recordaba que la puerta del segundo piso\nsiempre hubiera estado cerrada.""
+[node name="Mesh" type="MeshInstance3D" parent="DiaryPage"]
+mesh = SubResource("PaperMesh")
+material_override = SubResource("Mat_paper")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DiaryPage"]
+shape = SubResource("InteractShape")
+
 [node name="Player" type="CharacterBody3D" parent="."]
 position = Vector3(0, 1.0, 3.2)
 script = ExtResource("2_player")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("PlayerShape")
-
 [node name="Camera3D" type="Camera3D" parent="Player"]
 position = Vector3(0, 0.65, 0)
 current = true
 fov = 72.0
-
 [node name="Flashlight" type="SpotLight3D" parent="Player/Camera3D"]
 light_color = Color(1, 0.94, 0.82, 1)
 light_energy = 2.2
@@ -120,12 +122,33 @@ omni_range = 7.0
 shadow_enabled = true
 
 [node name="UI" type="CanvasLayer" parent="."]
-
 [node name="Message" type="Label" parent="UI"]
 offset_left = 28.0
 offset_top = 28.0
 offset_right = 900.0
-offset_bottom = 150.0
+offset_bottom = 160.0
 theme_override_colors/font_color = Color(0.78, 0.78, 0.74, 1)
 theme_override_font_sizes/font_size = 20
-text = "Historia de un Diario"
+[node name="DiaryPanel" type="ColorRect" parent="UI"]
+offset_left = 180.0
+offset_top = 120.0
+offset_right = 1100.0
+offset_bottom = 600.0
+color = Color(0.055, 0.048, 0.04, 0.96)
+[node name="DiaryText" type="Label" parent="UI/DiaryPanel"]
+offset_left = 55.0
+offset_top = 45.0
+offset_right = 860.0
+offset_bottom = 420.0
+theme_override_colors/font_color = Color(0.86, 0.82, 0.7, 1)
+theme_override_font_sizes/font_size = 24
+text = "PÁGINA 01\n\nVolví a esta casa después de muchos años.\nNo recordaba que la puerta del segundo piso\nsiempre hubiera estado cerrada.\n\nHay algo extraño en esta casa.\nY creo que alguien estuvo aquí antes que yo."
+
+[node name="InteractionPrompt" type="Label" parent="Player"]
+offset_left = -130.0
+offset_top = 180.0
+offset_right = 130.0
+offset_bottom = 220.0
+theme_override_colors/font_color = Color(0.9, 0.9, 0.86, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
