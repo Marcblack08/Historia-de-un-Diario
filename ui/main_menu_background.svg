@@ -1,62 +1,53 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="864" viewBox="0 0 1536 864">
 <defs>
- <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#05070b"/><stop offset=".55" stop-color="#10151d"/><stop offset="1" stop-color="#030405"/></linearGradient>
- <radialGradient id="moon"><stop stop-color="#e7edf0"/><stop offset=".65" stop-color="#aeb7bd"/><stop offset="1" stop-color="#69737b"/></radialGradient>
- <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#151718"/><stop offset="1" stop-color="#050606"/></linearGradient>
- <linearGradient id="house" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#55514a"/><stop offset="1" stop-color="#211f1c"/></linearGradient>
- <filter id="glow"><feGaussianBlur stdDeviation="12"/></filter>
- <filter id="soft"><feGaussianBlur stdDeviation="3"/></filter>
+<linearGradient id="sky" x2="0" y2="1"><stop stop-color="#02050a"/><stop offset=".55" stop-color="#101820"/><stop offset="1" stop-color="#050607"/></linearGradient>
+<radialGradient id="moon"><stop stop-color="#f4f5ef"/><stop offset=".7" stop-color="#b9c0c4"/><stop offset="1" stop-color="#657078"/></radialGradient>
+<linearGradient id="house" x2="0" y2="1"><stop stop-color="#514c45"/><stop offset="1" stop-color="#201d1a"/></linearGradient>
+<linearGradient id="road" x2="0" y2="1"><stop stop-color="#171918"/><stop offset="1" stop-color="#050606"/></linearGradient>
+<filter id="blur"><feGaussianBlur stdDeviation="14"/></filter>
 </defs>
-<rect width="1280" height="720" fill="url(#sky)"/>
-<circle cx="1030" cy="105" r="58" fill="#a9b2b7" opacity=".16" filter="url(#glow)"/>
-<circle cx="1030" cy="105" r="36" fill="url(#moon)"/>
-<path d="M0 470 Q190 410 360 455 T720 430 T1040 455 T1280 420 V720 H0Z" fill="url(#ground)"/>
-<!-- trees -->
-<g fill="#030405" opacity=".96">
-<path d="M80 0h55l-22 190 105-105 25 28-120 120 130 45-12 32-145-55-18 245H25l22-250-92 80-24-29 108-103L0 160V0z"/>
-<path d="M1190 0h52l-18 165 56-75v105l-50 72 50 34v62l-62-43-10 230h-72l20-244-96 86-28-30 108-105-75-56v-80l95 71z"/>
-</g>
+<rect width="1536" height="864" fill="url(#sky)"/>
+<circle cx="1165" cy="120" r="65" fill="#aeb9c1" opacity=".2" filter="url(#blur)"/><circle cx="1165" cy="120" r="40" fill="url(#moon)"/>
+<!-- dark tree silhouettes -->
+<g fill="#020304"><path d="M0 0h110l-18 230 120-130 34 38-140 135 150 55-20 48-154-54-20 240H0z"/><path d="M1370 0h166v864h-180l22-290-105 90-35-42 125-126-105-72 28-44 115 74z"/></g>
+<!-- ground -->
+<path d="M0 550 Q260 500 520 540 T1040 525 T1536 500 V864 H0Z" fill="#070909"/>
 <!-- house glow -->
-<ellipse cx="850" cy="455" rx="260" ry="130" fill="#c2763c" opacity=".09" filter="url(#glow)"/>
-<!-- house -->
-<g>
-<path d="M560 270 L790 145 L1035 270 V545 H560Z" fill="url(#house)" stroke="#171717" stroke-width="8"/>
-<path d="M525 275 L790 125 L1070 275 L1045 300 L790 170 L550 300Z" fill="#292824"/>
-<path d="M755 390 H825 V545 H755Z" fill="#171513" stroke="#0c0c0b" stroke-width="8"/>
-<circle cx="810" cy="468" r="5" fill="#b88952"/>
-<g fill="#b86e38">
-<rect x="610" y="295" width="82" height="76" rx="2"/><rect x="878" y="295" width="82" height="76" rx="2"/>
-<rect x="610" y="400" width="82" height="76" rx="2"/><rect x="878" y="400" width="82" height="76" rx="2"/>
+<ellipse cx="1020" cy="500" rx="350" ry="190" fill="#b46d38" opacity=".1" filter="url(#blur)"/>
+<g transform="translate(650 180)">
+<path d="M0 210 L370 0 L760 210 V610 H0Z" fill="url(#house)" stroke="#171717" stroke-width="10"/>
+<path d="M-45 215 L370 -30 L805 215 L775 245 L370 30 L-15 245Z" fill="#282622"/>
+<path d="M315 610 H445 V330 H315Z" fill="#171412" stroke="#0a0a09" stroke-width="9"/>
+<circle cx="420" cy="470" r="6" fill="#d19a58"/>
+<g fill="#b96932" stroke="#17110d" stroke-width="9">
+<rect x="65" y="240" width="115" height="100"/><rect x="575" y="240" width="115" height="100"/>
+<rect x="65" y="390" width="115" height="100"/><rect x="575" y="390" width="115" height="100"/>
 </g>
-<g stroke="#17120e" stroke-width="8"><path d="M651 295v76M610 333h82M919 295v76M878 333h82M651 400v76M610 438h82M919 400v76M878 438h82"/></g>
-<path d="M735 545 H845 L900 720 H680Z" fill="#22211f"/>
+<g stroke="#25170e" stroke-width="9"><path d="M122 240v100M65 290h115M632 240v100M575 290h115M122 390v100M65 440h115M632 390v100M575 440h115"/></g>
+<circle cx="380" cy="335" r="40" fill="#d88440" opacity=".16" filter="url(#blur)"/>
+<circle cx="380" cy="335" r="11" fill="#e1a05c"/>
 </g>
-<!-- porch lamp -->
-<circle cx="840" cy="350" r="32" fill="#e29a52" opacity=".18" filter="url(#glow)"/>
-<circle cx="840" cy="350" r="9" fill="#e6a45f"/>
-<path d="M830 345h20v30h-20z" fill="#4c3b2a"/>
 <!-- driveway -->
-<path d="M690 540 Q830 520 980 540 L1280 720 H400Z" fill="#0d0e0e"/>
-<path d="M790 548 Q850 545 915 550 L1040 720 H690Z" fill="#181a19" opacity=".8"/>
+<path d="M790 620 Q1040 580 1220 620 L1536 864 H430Z" fill="url(#road)"/>
+<path d="M925 620 Q1030 600 1120 620 L1280 864 H760Z" fill="#1a1c1b"/>
 <!-- car -->
-<g transform="translate(1020 455)">
-<path d="M0 55 Q15 5 70 0 H145 Q190 5 215 55 L228 95 H-10Z" fill="#101214" stroke="#050506" stroke-width="8"/>
-<path d="M70 10h75l35 40H38Z" fill="#171d22" stroke="#33383c" stroke-width="4"/>
-<circle cx="45" cy="95" r="23" fill="#070707" stroke="#454545" stroke-width="5"/><circle cx="184" cy="95" r="23" fill="#070707" stroke="#454545" stroke-width="5"/>
-<rect x="195" y="55" width="15" height="10" fill="#b15d32"/>
+<g transform="translate(1240 525)">
+<path d="M0 90 Q30 10 105 0 H205 Q275 10 310 90 L325 145 H-20Z" fill="#0b0d0f" stroke="#050506" stroke-width="9"/>
+<path d="M100 15h100l55 62H45Z" fill="#11191e" stroke="#343a3d" stroke-width="5"/>
+<circle cx="60" cy="145" r="31" fill="#050505" stroke="#4a4a4a" stroke-width="6"/><circle cx="255" cy="145" r="31" fill="#050505" stroke="#4a4a4a" stroke-width="6"/>
+<rect x="292" y="83" width="18" height="13" fill="#b65a30"/>
 </g>
 <!-- rain -->
-<g stroke="#8d9ba6" stroke-width="2" opacity=".25">
-<path d="M90 20l-35 90M150 75l-30 75M230 10l-35 90M310 60l-28 82M390 25l-35 90M470 80l-30 78M550 20l-34 88M630 70l-30 90M710 20l-32 85M790 70l-30 88M870 20l-30 88M950 60l-28 82M1030 15l-32 88M1110 70l-30 88M1190 15l-32 90M1260 65l-28 85"/>
-<path d="M60 210l-32 85M180 180l-35 90M290 220l-30 82M420 175l-35 92M540 220l-30 80M660 175l-32 88M780 215l-30 85M900 180l-34 90M1020 220l-30 82M1140 175l-35 92M1240 215l-30 85"/>
+<g stroke="#b7c4cd" stroke-width="2" opacity=".26">
+<path d="M50 20l-42 105M150 70l-38 105M260 15l-40 110M370 80l-38 105M480 20l-42 105M590 75l-38 105M700 20l-40 105M810 80l-38 105M920 15l-40 110M1030 75l-38 105M1140 20l-40 105M1250 70l-38 105M1360 15l-40 110M1470 75l-38 105"/>
+<path d="M70 250l-38 100M200 210l-40 110M330 260l-36 98M470 215l-40 108M610 260l-38 100M750 215l-40 108M890 255l-38 102M1030 210l-40 110M1170 255l-38 102M1310 210l-40 110M1450 255l-38 102"/>
 </g>
 <!-- foreground journal -->
-<g transform="translate(55 565) rotate(-7)">
-<rect x="0" y="0" width="350" height="115" rx="12" fill="#19130f" stroke="#513728" stroke-width="7"/>
-<rect x="18" y="15" width="314" height="85" rx="6" fill="#211813" stroke="#3d2a1e" stroke-width="3"/>
-<path d="M50 78 Q110 30 170 76 T290 62" fill="none" stroke="#6b5441" stroke-width="4" opacity=".7"/>
-<text x="65" y="68" fill="#9b8062" font-size="24" font-family="serif" opacity=".75">DIARIO</text>
+<g transform="translate(35 700) rotate(-7)">
+<rect width="500" height="145" rx="12" fill="#17100d" stroke="#604332" stroke-width="9"/>
+<rect x="22" y="20" width="450" height="105" rx="7" fill="#231813" stroke="#463025" stroke-width="4"/>
+<text x="90" y="86" fill="#8e7059" font-size="30" font-family="Georgia,serif" letter-spacing="4">DIARIO</text>
+<path d="M48 105 Q160 40 255 100 T440 85" fill="none" stroke="#755640" stroke-width="5" opacity=".75"/>
 </g>
-<!-- vignette -->
-<rect width="1280" height="720" fill="none" stroke="#000" stroke-width="100" opacity=".55"/>
+<rect width="1536" height="864" fill="none" stroke="#000" stroke-width="110" opacity=".55"/>
 </svg>
