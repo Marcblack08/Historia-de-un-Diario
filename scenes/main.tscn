@@ -81,7 +81,7 @@ mesh = SubResource("WallMeshLong")
 material_override = SubResource("Mat_wall")
 
 [node name="Door" type="StaticBody3D" parent="."]
-position = Vector3(5.1, 1.25, -4.88)
+position = Vector3(5.1, 1.05, -4.88)
 [node name="Mesh" type="MeshInstance3D" parent="Door"]
 mesh = SubResource("DoorMesh")
 material_override = SubResource("Mat_door")
