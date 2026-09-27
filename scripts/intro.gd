@@ -7,6 +7,9 @@ var caption: Label
 var prompt: Label
 var photo_layer: CanvasLayer
 var photo: TextureRect
+var video_player: VideoStreamPlayer
+var video_mode := false
+var video_path := "res://ui/cinematic/intro.ogv"
 var photo_paths := [
 	"res://ui/cinematic/arrival_01.jpg",
 	"res://ui/cinematic/arrival_02.jpg",
@@ -36,7 +39,8 @@ func _ready() -> void:
 	_build_world()
 	_build_ui()
 	_build_photo_cinematic()
-	_start_cinematic()
+	_build_video_player()
+	_start_video_or_photo()
 
 func _process(delta: float) -> void:
 	if cinematic_active and is_instance_valid(camera):
@@ -48,10 +52,22 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event is InputEventKey and event.pressed:
 		skip_requested = true
+		if video_mode and is_instance_valid(video_player):
+			video_player.stop()
+			_finish()
+			return
 	elif event is InputEventScreenTouch and event.pressed:
 		skip_requested = true
+		if video_mode and is_instance_valid(video_player):
+			video_player.stop()
+			_finish()
+			return
 	elif event is InputEventMouseButton and event.pressed:
 		skip_requested = true
+		if video_mode and is_instance_valid(video_player):
+			video_player.stop()
+			_finish()
+			return
 
 func _mat(color: Color, roughness := 0.8, emission := Color(0, 0, 0, 1), metallic := 0.0) -> StandardMaterial3D:
 	var m := StandardMaterial3D.new()
@@ -307,6 +323,39 @@ func _build_ui() -> void:
 	prompt.add_theme_color_override("font_color", Color(0.65, 0.62, 0.57, 0.72))
 	layer.add_child(prompt)
 
+func _build_video_player() -> void:
+	video_player = VideoStreamPlayer.new()
+	video_player.name = "CinematicVideo"
+	video_player.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	video_player.expand = true
+	video_player.loop = false
+	video_player.autoplay = false
+	video_player.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	video_player.visible = false
+	video_player.z_index = 25
+	video_player.finished.connect(_on_video_finished)
+	photo_layer.add_child(video_player)
+
+func _start_video_or_photo() -> void:
+	await get_tree().process_frame
+	if ResourceLoader.exists(video_path):
+		var stream: VideoStream = load(video_path) as VideoStream
+		if stream != null:
+			video_mode = true
+			photo.visible = false
+			video_player.stream = stream
+			video_player.visible = true
+			prompt.text = "TOCA PARA OMITIR"
+			await _fade_to(0.0, 0.8)
+			if not skip_requested:
+				video_player.play()
+				return
+	_finish()
+
+func _on_video_finished() -> void:
+	if video_mode and cinematic_active:
+		_finish()
+
 func _build_photo_cinematic() -> void:
 	photo_layer = CanvasLayer.new()
 	photo_layer.layer = 20
@@ -528,6 +577,8 @@ func _finish() -> void:
 	if not cinematic_active:
 		return
 	cinematic_active = false
+	if is_instance_valid(video_player):
+		video_player.stop()
 	var t := create_tween()
 	t.tween_property(fade, "color:a", 1.0, 0.35)
 	await t.finished
