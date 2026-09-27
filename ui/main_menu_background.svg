@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs>
+ <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#05070b"/><stop offset=".55" stop-color="#10151d"/><stop offset="1" stop-color="#030405"/></linearGradient>
+ <radialGradient id="moon"><stop stop-color="#e7edf0"/><stop offset=".65" stop-color="#aeb7bd"/><stop offset="1" stop-color="#69737b"/></radialGradient>
+ <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#151718"/><stop offset="1" stop-color="#050606"/></linearGradient>
+ <linearGradient id="house" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#55514a"/><stop offset="1" stop-color="#211f1c"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="12"/></filter>
+ <filter id="soft"><feGaussianBlur stdDeviation="3"/></filter>
+</defs>
+<rect width="1280" height="720" fill="url(#sky)"/>
+<circle cx="1030" cy="105" r="58" fill="#a9b2b7" opacity=".16" filter="url(#glow)"/>
+<circle cx="1030" cy="105" r="36" fill="url(#moon)"/>
+<path d="M0 470 Q190 410 360 455 T720 430 T1040 455 T1280 420 V720 H0Z" fill="url(#ground)"/>
+<!-- trees -->
+<g fill="#030405" opacity=".96">
+<path d="M80 0h55l-22 190 105-105 25 28-120 120 130 45-12 32-145-55-18 245H25l22-250-92 80-24-29 108-103L0 160V0z"/>
+<path d="M1190 0h52l-18 165 56-75v105l-50 72 50 34v62l-62-43-10 230h-72l20-244-96 86-28-30 108-105-75-56v-80l95 71z"/>
+</g>
+<!-- house glow -->
+<ellipse cx="850" cy="455" rx="260" ry="130" fill="#c2763c" opacity=".09" filter="url(#glow)"/>
+<!-- house -->
+<g>
+<path d="M560 270 L790 145 L1035 270 V545 H560Z" fill="url(#house)" stroke="#171717" stroke-width="8"/>
+<path d="M525 275 L790 125 L1070 275 L1045 300 L790 170 L550 300Z" fill="#292824"/>
+<path d="M755 390 H825 V545 H755Z" fill="#171513" stroke="#0c0c0b" stroke-width="8"/>
+<circle cx="810" cy="468" r="5" fill="#b88952"/>
+<g fill="#b86e38">
+<rect x="610" y="295" width="82" height="76" rx="2"/><rect x="878" y="295" width="82" height="76" rx="2"/>
+<rect x="610" y="400" width="82" height="76" rx="2"/><rect x="878" y="400" width="82" height="76" rx="2"/>
+</g>
+<g stroke="#17120e" stroke-width="8"><path d="M651 295v76M610 333h82M919 295v76M878 333h82M651 400v76M610 438h82M919 400v76M878 438h82"/></g>
+<path d="M735 545 H845 L900 720 H680Z" fill="#22211f"/>
+</g>
+<!-- porch lamp -->
+<circle cx="840" cy="350" r="32" fill="#e29a52" opacity=".18" filter="url(#glow)"/>
+<circle cx="840" cy="350" r="9" fill="#e6a45f"/>
+<path d="M830 345h20v30h-20z" fill="#4c3b2a"/>
+<!-- driveway -->
+<path d="M690 540 Q830 520 980 540 L1280 720 H400Z" fill="#0d0e0e"/>
+<path d="M790 548 Q850 545 915 550 L1040 720 H690Z" fill="#181a19" opacity=".8"/>
+<!-- car -->
+<g transform="translate(1020 455)">
+<path d="M0 55 Q15 5 70 0 H145 Q190 5 215 55 L228 95 H-10Z" fill="#101214" stroke="#050506" stroke-width="8"/>
+<path d="M70 10h75l35 40H38Z" fill="#171d22" stroke="#33383c" stroke-width="4"/>
+<circle cx="45" cy="95" r="23" fill="#070707" stroke="#454545" stroke-width="5"/><circle cx="184" cy="95" r="23" fill="#070707" stroke="#454545" stroke-width="5"/>
+<rect x="195" y="55" width="15" height="10" fill="#b15d32"/>
+</g>
+<!-- rain -->
+<g stroke="#8d9ba6" stroke-width="2" opacity=".25">
+<path d="M90 20l-35 90M150 75l-30 75M230 10l-35 90M310 60l-28 82M390 25l-35 90M470 80l-30 78M550 20l-34 88M630 70l-30 90M710 20l-32 85M790 70l-30 88M870 20l-30 88M950 60l-28 82M1030 15l-32 88M1110 70l-30 88M1190 15l-32 90M1260 65l-28 85"/>
+<path d="M60 210l-32 85M180 180l-35 90M290 220l-30 82M420 175l-35 92M540 220l-30 80M660 175l-32 88M780 215l-30 85M900 180l-34 90M1020 220l-30 82M1140 175l-35 92M1240 215l-30 85"/>
+</g>
+<!-- foreground journal -->
+<g transform="translate(55 565) rotate(-7)">
+<rect x="0" y="0" width="350" height="115" rx="12" fill="#19130f" stroke="#513728" stroke-width="7"/>
+<rect x="18" y="15" width="314" height="85" rx="6" fill="#211813" stroke="#3d2a1e" stroke-width="3"/>
+<path d="M50 78 Q110 30 170 76 T290 62" fill="none" stroke="#6b5441" stroke-width="4" opacity=".7"/>
+<text x="65" y="68" fill="#9b8062" font-size="24" font-family="serif" opacity=".75">DIARIO</text>
+</g>
+<!-- vignette -->
+<rect width="1280" height="720" fill="none" stroke="#000" stroke-width="100" opacity=".55"/>
+</svg>
