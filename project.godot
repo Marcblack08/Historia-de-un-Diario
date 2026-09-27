@@ -1,6 +1,6 @@
 [application]
 config/name="Historia de un Diario"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 
 [display]
