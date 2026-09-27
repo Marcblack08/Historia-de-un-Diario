@@ -7,6 +7,7 @@ var prompt: Label
 var cinematic_active := true
 var skip_requested := false
 var rain: GPUParticles3D
+var look_target := Vector3(0.0, 2.2, -8.0)
 
 func _ready() -> void:
 	_build_world()
