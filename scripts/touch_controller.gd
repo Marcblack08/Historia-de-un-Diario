@@ -38,12 +38,12 @@ func _gui_input(event: InputEvent) -> void:
 				look_touch = -1
 	elif event is InputEventScreenDrag:
 		if event.index == move_touch:
-			var delta := event.position - move_origin
+			var delta: Vector2 = event.position - move_origin
 			move_value = delta.limit_length(70.0) / 70.0
 			move_changed.emit(move_value)
 			queue_redraw()
 		elif event.index == look_touch:
-			var delta := event.position - last_look
+			var delta: Vector2 = event.position - last_look
 			last_look = event.position
 			look_changed.emit(delta)
 
