@@ -17,6 +17,7 @@ func _ready() -> void:
 	touch.flashlight_pressed.connect($Player.flashlight)
 	touch.interact_pressed.connect($Player.interact)
 	_build_visual_environment()
+	_upgrade_base_geometry()
 	_build_material_detail()
 	_build_first_floor_story_space()
 
@@ -64,6 +65,25 @@ func _cylinder(parent: Node3D, radius: float, height: float, pos: Vector3, mat: 
 	n.position = pos
 	parent.add_child(n)
 	return n
+
+func _upgrade_base_geometry() -> void:
+	# The original blockout remains as collision, but its visible surfaces now
+	# use the same aged material system as the cinematic detail layer.
+	var floor_mesh := $Floor/Mesh as MeshInstance3D
+	floor_mesh.material_override = _mat(Color(0.065, 0.038, 0.024), 0.58, 0.0)
+
+	var wall_mat := _mat(Color(0.115, 0.105, 0.095), 0.91)
+	$Walls/Left/Mesh.material_override = wall_mat
+	$Walls/Right/Mesh.material_override = wall_mat
+	$Walls/Back/Mesh.material_override = wall_mat
+	$Walls/FrontLeft/Mesh.material_override = wall_mat
+	$Walls/FrontRight/Mesh.material_override = wall_mat
+
+	$Door/Mesh.material_override = _mat(Color(0.065, 0.030, 0.018), 0.74)
+	$Table.material_override = _mat(Color(0.075, 0.038, 0.020), 0.70)
+
+	var paper_mat := _mat(Color(0.48, 0.43, 0.32), 0.94)
+	$DiaryPage/Mesh.material_override = paper_mat
 
 func _build_visual_environment() -> void:
 	var env := WorldEnvironment.new()
@@ -193,8 +213,8 @@ func _build_visual_environment() -> void:
 func _build_material_detail() -> void:
 	# Visual pass: small repeated details make the room read as a real old house
 	# without adding heavy external assets, keeping the Android prototype light.
-	var floor_wood := _mat(Color(0.075, 0.042, 0.026), 0.88)
-	var floor_gap := _mat(Color(0.028, 0.020, 0.016), 0.98)
+	var floor_wood := _mat(Color(0.075, 0.042, 0.026), 0.56)
+	var floor_gap := _mat(Color(0.018, 0.012, 0.010), 0.96)
 	for i in range(13):
 		var x: float = -6.4 + float(i) * 1.05
 		for j in range(8):
