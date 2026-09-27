@@ -20,15 +20,26 @@ func _ready() -> void:
 	_build_material_detail()
 	_build_first_floor_story_space()
 
-func _mat(color: Color, roughness := 0.8, metallic := 0.0, emission := Color(0, 0, 0, 1)) -> StandardMaterial3D:
-	var m := StandardMaterial3D.new()
-	m.albedo_color = color
-	m.roughness = roughness
-	m.metallic = metallic
+func _mat(color: Color, roughness := 0.8, metallic := 0.0, emission := Color(0, 0, 0, 1)) -> Material:
+	var shader := load("res://shaders/old_house_surface.gdshader") as Shader
+	var m := ShaderMaterial.new()
+	m.shader = shader
+	var detail := Color(
+		max(color.r * 0.28, 0.008),
+		max(color.g * 0.28, 0.008),
+		max(color.b * 0.28, 0.008),
+		1.0
+	)
+	m.set_shader_parameter("base_color", color)
+	m.set_shader_parameter("detail_color", detail)
+	m.set_shader_parameter("roughness", roughness)
+	m.set_shader_parameter("metallic", metallic)
+	m.set_shader_parameter("detail_scale", 3.6 if roughness > 0.65 else 7.0)
+	m.set_shader_parameter("stain_strength", 0.32 if roughness > 0.7 else 0.14)
+	m.set_shader_parameter("grain_strength", 0.22 if roughness > 0.7 else 0.10)
+	m.set_shader_parameter("moisture", 0.38 if roughness < 0.62 else 0.08)
 	if emission.a > 0.0:
-		m.emission_enabled = true
-		m.emission = emission
-		m.emission_energy_multiplier = 0.8
+		m.set_shader_parameter("base_color", color.lightened(0.12))
 	return m
 
 func _box(parent: Node3D, size: Vector3, pos: Vector3, mat: Material, rot := Vector3.ZERO) -> MeshInstance3D:
@@ -57,11 +68,20 @@ func _cylinder(parent: Node3D, radius: float, height: float, pos: Vector3, mat: 
 func _build_visual_environment() -> void:
 	var env := WorldEnvironment.new()
 	var environment := Environment.new()
-	environment.background_mode = Environment.BG_COLOR
-	environment.background_color = Color(0.006, 0.007, 0.008)
+	environment.background_mode = Environment.BG_SKY
+	var sky := Sky.new()
+	var sky_material := ProceduralSkyMaterial.new()
+	sky_material.sky_top_color = Color(0.004, 0.008, 0.018)
+	sky_material.sky_horizon_color = Color(0.045, 0.055, 0.070)
+	sky_material.ground_bottom_color = Color(0.004, 0.004, 0.006)
+	sky_material.ground_horizon_color = Color(0.018, 0.020, 0.024)
+	sky_material.sun_angle_max = 8.0
+	sky_material.sun_curve = 0.08
+	sky.sky_material = sky_material
+	environment.sky = sky
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	environment.ambient_light_color = Color(0.12, 0.105, 0.09)
-	environment.ambient_light_energy = 0.38
+	environment.ambient_light_color = Color(0.10, 0.105, 0.12)
+	environment.ambient_light_energy = 0.30
 	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	environment.glow_enabled = true
 	environment.glow_intensity = 0.55
@@ -165,7 +185,9 @@ func _build_visual_environment() -> void:
 	dust.process_material = dust_process
 	add_child(dust)
 
-	$Player/Camera3D.fov = 68.0
+	$Player/Camera3D.fov = 72.0
+	$Player/Camera3D.near = 0.03
+	$Player/Camera3D.far = 45.0
 
 
 func _build_material_detail() -> void:
