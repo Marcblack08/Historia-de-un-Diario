@@ -141,13 +141,8 @@ func _build_visual_environment() -> void:
 	_box(self, Vector3(4.95, 0.04, 0.10), Vector3(0, 0.06, -0.25), rug_edge)
 	_box(self, Vector3(4.95, 0.04, 0.10), Vector3(0, 0.06, 2.45), rug_edge)
 
-	# Wooden table becomes a believable piece of furniture.
+	# Furniture uses real-world dimensions; the scene table is ~0.76 m high.
 	var table_wood := _mat(Color(0.075, 0.038, 0.021), 0.76)
-	# Human-scale dining table: ~0.76 m tabletop height.
-	_box(self, Vector3(2.9, 0.16, 1.35), Vector3(0, 0.76, -1.2), table_wood)
-	for x in [-1.15, 1.15]:
-		for z in [-0.42, 0.42]:
-			_box(self, Vector3(0.15, 0.72, 0.15), Vector3(x, 0.36, -1.2 + z), table_wood)
 
 	# A chair left abandoned beside the table.
 	var chair := Node3D.new()
