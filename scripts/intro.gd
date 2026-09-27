@@ -12,15 +12,19 @@ var look_target := Vector3(0.0, 2.2, -8.0)
 var house: Node3D
 var porch_light: OmniLight3D
 var window_lights: Array[OmniLight3D] = []
+var lightning_light: DirectionalLight3D
+var lightning_timer := 2.8
+var lightning_flash := 0.0
 
 func _ready() -> void:
 	_build_world()
 	_build_ui()
 	_start_cinematic()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if cinematic_active and is_instance_valid(camera):
 		camera.look_at(look_target, Vector3.UP)
+	_lightning_step(delta)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not cinematic_active:
@@ -113,6 +117,13 @@ func _build_world() -> void:
 	environment.fog_sky_affect = 0.25
 	env.environment = environment
 	add_child(env)
+
+	lightning_light = DirectionalLight3D.new()
+	lightning_light.rotation_degrees = Vector3(-28, -55, -12)
+	lightning_light.light_color = Color(0.58, 0.70, 0.95)
+	lightning_light.light_energy = 0.0
+	lightning_light.shadow_enabled = true
+	add_child(lightning_light)
 
 	var moon := DirectionalLight3D.new()
 	moon.rotation_degrees = Vector3(-48, -28, 0)
@@ -221,9 +232,10 @@ func _build_world() -> void:
 
 	# Rain.
 	rain = GPUParticles3D.new()
-	rain.amount = 360
+	rain.amount = 520
 	rain.lifetime = 1.1
 	rain.position = Vector3(0, 9, -1)
+	rain.visibility_aabb = AABB(Vector3(-18, -1, -20), Vector3(36, 22, 40))
 	var rain_mesh := BoxMesh.new()
 	rain_mesh.size = Vector3(0.012, 0.50, 0.012)
 	rain.draw_pass_1 = rain_mesh
@@ -238,11 +250,11 @@ func _build_world() -> void:
 	rain.process_material = process
 	add_child(rain)
 
-	# Camera.
+	# Camera starts beside the arriving car.
 	camera = Camera3D.new()
 	camera.current = true
 	camera.fov = 58.0
-	camera.position = Vector3(0, 1.60, 14.5)
+	camera.position = Vector3(6.65, 1.58, 6.55)
 	add_child(camera)
 
 func _build_ui() -> void:
@@ -300,6 +312,18 @@ func _move_camera(pos: Vector3, target: Vector3, duration: float) -> void:
 	t.tween_property(camera, "position", pos, duration)
 	await t.finished
 
+func _lightning_step(delta: float) -> void:
+	lightning_timer -= delta
+	if lightning_flash > 0.0:
+		lightning_flash -= delta
+		if is_instance_valid(lightning_light):
+			lightning_light.light_energy = 2.8 if lightning_flash > 0.055 else 0.0
+	if lightning_timer <= 0.0:
+		lightning_timer = randf_range(3.8, 7.5)
+		lightning_flash = 0.18
+		if is_instance_valid(lightning_light):
+			lightning_light.light_energy = 2.8
+
 func _flicker_lights() -> void:
 	for light in window_lights:
 		if is_instance_valid(light):
@@ -319,8 +343,14 @@ func _start_cinematic() -> void:
 		_finish()
 		return
 
-	await _move_camera(Vector3(0, 1.78, 8.0), Vector3(0, 2.3, -8.0), 3.2)
-	await _caption("Después de muchos años...", 2.4)
+	await _move_camera(Vector3(5.85, 1.62, 5.10), Vector3(0.0, 2.4, -8.6), 2.8)
+	await _caption("Después de muchos años...", 2.2)
+	if skip_requested:
+		_finish()
+		return
+
+	await _move_camera(Vector3(2.8, 1.72, 1.2), Vector3(0.0, 2.7, -9.0), 3.8)
+	_flicker_lights()
 	_flicker_lights()
 	if skip_requested:
 		_finish()
