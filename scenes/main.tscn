@@ -30,7 +30,11 @@ size = Vector3(0.25, 3.2, 10)
 [sub_resource type="BoxMesh" id="WallMeshLong"]
 size = Vector3(14, 3.2, 0.25)
 [sub_resource type="BoxMesh" id="DoorMesh"]
-size = Vector3(1.8, 2.5, 0.18)
+size = Vector3(0.92, 2.10, 0.08)
+[sub_resource type="BoxMesh" id="TableMesh"]
+size = Vector3(2.90, 0.16, 1.35)
+[sub_resource type="BoxShape3D" id="TableShape"]
+size = Vector3(2.90, 0.76, 1.35)
 [sub_resource type="BoxMesh" id="PaperMesh"]
 size = Vector3(0.65, 0.02, 0.9)
 [sub_resource type="CapsuleShape3D" id="PlayerShape"]
@@ -82,11 +86,14 @@ position = Vector3(5.1, 1.25, -4.88)
 mesh = SubResource("DoorMesh")
 material_override = SubResource("Mat_door")
 
-[node name="Table" type="MeshInstance3D" parent="."]
-position = Vector3(0, 0.55, -1.2)
-scale = Vector3(1.6, 1.0, 0.75)
-mesh = SubResource("DoorMesh")
+[node name="Table" type="StaticBody3D" parent="."]
+position = Vector3(0, 0.84, -1.2)
+[node name="Mesh" type="MeshInstance3D" parent="Table"]
+mesh = SubResource("TableMesh")
 material_override = SubResource("Mat_wood")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table"]
+position = Vector3(0, -0.08, 0)
+shape = SubResource("TableShape")
 
 [node name="DiaryPage" type="Area3D" parent="."]
 position = Vector3(0, 0.98, -1.2)
