@@ -26,7 +26,7 @@ func _ready() -> void:
 	tween.tween_property(ambience, "modulate:a", 0.48, 3.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func _new_game() -> void:
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	get_tree().change_scene_to_file("res://scenes/intro.tscn")
 
 func _open_settings() -> void:
 	main_panel.visible = false
