@@ -274,8 +274,8 @@ func show_interaction(text: String) -> void:
 func _add_human_scale_details() -> void:
 	# Door hardware at believable hand height (~1.0 m).
 	var hardware := _mat(Color(0.16, 0.13, 0.09), 0.28, 0.65)
-	_cylinder(self, 0.035, 0.055, Vector3(4.70, 1.02, -4.40), hardware)
-	_box(self, Vector3(0.20, 0.035, 0.035), Vector3(4.70, 1.02, -4.43), hardware)
+	_cylinder(self, 0.035, 0.055, Vector3(5.10, 1.05, -4.81), hardware)
+	_box(self, Vector3(0.20, 0.035, 0.035), Vector3(5.10, 1.05, -4.84), hardware)
 
 	# Wall light switch at ~1.15 m, within natural hand reach.
 	var switch_mat := _mat(Color(0.34, 0.34, 0.30), 0.48)
@@ -298,6 +298,15 @@ func _build_first_floor_story_space() -> void:
 		var step := _box(self, Vector3(2.6, 0.175, 0.32), Vector3(4.15, y, z), stair_mat)
 		step.name = "Stair_%02d" % i
 		_box(self, Vector3(2.62, 0.055, 0.06), Vector3(4.15, y + 0.115, z - 0.13), riser_mat)
+		var stair_body := StaticBody3D.new()
+		stair_body.name = "StairCollision_%02d" % i
+		stair_body.position = Vector3(4.15, y, z)
+		var stair_shape := CollisionShape3D.new()
+		var stair_box := BoxShape3D.new()
+		stair_box.size = Vector3(2.6, 0.175, 0.32)
+		stair_shape.shape = stair_box
+		stair_body.add_child(stair_shape)
+		add_child(stair_body)
 	# Upstairs landing at ~1.40 m, using a realistic residential rise.
 	_box(self, Vector3(3.0, 0.16, 1.6), Vector3(4.15, 1.43, -4.15), stair_mat)
 	# A normal-height interior door aligned with the landing.
