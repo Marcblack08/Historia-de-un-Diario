@@ -82,7 +82,7 @@ func _on_button_exit(button: Button) -> void:
 func _apply_cinematic_background() -> void:
 	# The cinematic JPEG is preferred when present; SVG remains a safe fallback
 	# so the project never opens with a missing-resource error.
-	var cinematic_path := "res://ui/main_menu_cinematic.jpg"
+	var cinematic_path := "res://ui/main_menu_cinematic_github.jpg"
 	if ResourceLoader.exists(cinematic_path):
 		var cinematic_texture := load(cinematic_path) as Texture2D
 		if cinematic_texture:
