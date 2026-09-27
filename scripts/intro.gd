@@ -194,7 +194,7 @@ func _build_world() -> void:
 	var fence_mat := _mat(Color(0.045, 0.038, 0.031), 0.9)
 	for side in [-1, 1]:
 		for i in range(7):
-			var x := side * (8.0 + float(i) * 1.15)
+			var x: float = float(side) * (8.0 + float(i) * 1.15)
 			_box(self, Vector3(0.14, 2.0, 0.18), Vector3(x, 1.0, 0.5), fence_mat)
 		_box(self, Vector3(8.2, 0.16, 0.18), Vector3(side * 11.3, 2.0, 0.5), fence_mat)
 
