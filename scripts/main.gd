@@ -21,6 +21,7 @@ func _ready() -> void:
 	_build_material_detail()
 	_build_first_floor_story_space()
 	_add_human_scale_details()
+	_build_explorable_props()
 
 func _mat(color: Color, roughness := 0.8, metallic := 0.0, emission := Color(0, 0, 0, 1)) -> Material:
 	var shader := load("res://shaders/old_house_surface.gdshader") as Shader
@@ -334,3 +335,57 @@ func _build_story_after_diary() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		diary_panel.visible = false
+
+
+func _build_explorable_props() -> void:
+	var dark_wood := _mat(Color(0.045, 0.024, 0.015), 0.86)
+	var brass := _mat(Color(0.24, 0.14, 0.055), 0.30, 0.72)
+	var ceramic := _mat(Color(0.16, 0.12, 0.09), 0.72)
+	var fabric := _mat(Color(0.075, 0.055, 0.048), 0.94)
+
+	# Console table near the entrance: adds a believable transition area.
+	_box(self, Vector3(2.2, 0.12, 0.55), Vector3(3.0, 0.92, -4.25), dark_wood)
+	_box(self, Vector3(0.12, 0.82, 0.12), Vector3(2.15, 0.46, -4.10), dark_wood)
+	_box(self, Vector3(0.12, 0.82, 0.12), Vector3(3.85, 0.46, -4.10), dark_wood)
+	_box(self, Vector3(0.12, 0.82, 0.12), Vector3(2.15, 0.46, -4.45), dark_wood)
+	_box(self, Vector3(0.12, 0.82, 0.12), Vector3(3.85, 0.46, -4.45), dark_wood)
+
+	# Table lamp with a warm point of light.
+	_cylinder(self, 0.12, 0.08, Vector3(3.0, 1.04, -4.24), brass)
+	_cylinder(self, 0.035, 0.34, Vector3(3.0, 1.23, -4.24), brass)
+	_box(self, Vector3(0.36, 0.24, 0.36), Vector3(3.0, 1.43, -4.24), fabric)
+	var lamp_light := OmniLight3D.new()
+	lamp_light.position = Vector3(3.0, 1.35, -4.05)
+	lamp_light.light_color = Color(1.0, 0.42, 0.16)
+	lamp_light.light_energy = 0.45
+	lamp_light.omni_range = 2.8
+	add_child(lamp_light)
+
+	# Wall clock: a small human-scale landmark for exploration.
+	_cylinder(self, 0.32, 0.055, Vector3(-2.1, 2.25, -4.72), dark_wood)
+	_cylinder(self, 0.25, 0.06, Vector3(-2.1, 2.25, -4.77), ceramic)
+	_box(self, Vector3(0.025, 0.18, 0.025), Vector3(-2.1, 2.34, -4.83), brass)
+	_box(self, Vector3(0.16, 0.025, 0.025), Vector3(-2.02, 2.25, -4.83), brass)
+
+	# Coat rack beside the staircase.
+	_cylinder(self, 0.06, 1.65, Vector3(5.55, 0.83, -1.05), dark_wood)
+	for angle in [0.0, 90.0, 180.0, 270.0]:
+		var hook := _cylinder(self, 0.035, 0.42, Vector3(5.55, 1.62, -1.05), brass)
+		hook.rotation_degrees.z = angle
+
+	# Potted plant for organic contrast.
+	_cylinder(self, 0.25, 0.34, Vector3(-5.25, 0.25, -3.65), ceramic)
+	for p in [Vector3(-5.48, 0.75, -3.65), Vector3(-5.05, 0.82, -3.65), Vector3(-5.25, 0.95, -3.48), Vector3(-5.25, 0.88, -3.84)]:
+		var leaf := _box(self, Vector3(0.08, 0.52, 0.30), p, _mat(Color(0.025, 0.055, 0.035), 0.95), Vector3(0, 0, -18))
+
+	# Hanging chandelier silhouette over the center of the room.
+	_cylinder(self, 0.06, 0.55, Vector3(0, 2.58, 0.15), brass)
+	_cylinder(self, 0.32, 0.10, Vector3(0, 2.28, 0.15), brass)
+	for p in [Vector3(-0.45, 2.18, 0.15), Vector3(0.45, 2.18, 0.15), Vector3(0, 2.18, -0.45), Vector3(0, 2.18, 0.45)]:
+		_cylinder(self, 0.07, 0.28, p, brass)
+	var chandelier_light := OmniLight3D.new()
+	chandelier_light.position = Vector3(0, 2.05, 0.15)
+	chandelier_light.light_color = Color(1.0, 0.34, 0.12)
+	chandelier_light.light_energy = 0.18
+	chandelier_light.omni_range = 4.5
+	add_child(chandelier_light)
